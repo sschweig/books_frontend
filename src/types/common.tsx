@@ -10,22 +10,3 @@ type BookType = {
     ratingsCount?: number; 
     publishedDate?: string; 
 }
-
-type BookListType = Array<BookType>
-
-// ContextAPI types
-type StateType = {
-    query: string
-    booklist: BookListType;
-  };
-
-type DataActionType = {
-    type: "UPDATE_BOOK_LIST";
-    booklist: BookListType;
-};
-type QueryUpdateActionType = {
-    type: "UPDATE_QUERY";
-    query: string;
-};
-  
-type ActionType = DataActionType | QueryUpdateActionType;
