@@ -2,13 +2,21 @@
 import React, { useState, MouseEvent } from 'react';
 
 export default function Dash() {
-  const [library, setLibrary] = useState<BookType[]>([])
-  const [details, setDetails] = useState<BookType>()
-  const [query, setQuery] = useState("")
-  const [overlayActive, setOverlay] = useState<Boolean>(false)
+  // State setup
+  const [library, setLibrary] = useState<BookType[]>([]) // Query results list
+  const [query, setQuery] = useState("") // Query storage
 
-  function doSearch(evt: MouseEvent<HTMLButtonElement>) {
+  /**Queries and returns the results from the Google Books API.
+   * 
+   * Simple url builder replaces the spaces with `+` characters. 
+   * Url is logged then then executed, after which the response is
+   * converted to JSON and stored in the `library` state.
+   * 
+   * @param evt 
+   */
+  function doSearch(evt: MouseEvent<HTMLButtonElement>): void {
     evt.preventDefault();
+
     const url = 'http://localhost:80/results/' + query.toString().split(' ').join('+')
     console.log('doSearch: ' + url);
 
@@ -18,12 +26,22 @@ export default function Dash() {
   }
 
   const BookList = () => {
+    /**List of BookCards.
+     * 
+     * Uses builin map function to spin out a BookCard tile for 
+     * each value in `library`.
+     */
     return <div className="h-screen bg-green-200 grid grid-cols-2 md:grid-cols-3 gap-4">  
         {library.map(book => (<BookCard key={book.uid} {...book}/>))}
     </div>
   }
 
   const BookCard = (book: BookType) => {
+    /**Tile containing some information about the book.
+     * 
+     * Tile was intended to display a popup with greater detail,
+     * but I haven't got here yet.
+     */
     return <>
       <button className="h-80 rounded-lg bg-no-repeat content flex flex-wrap overflow-hidden py-2 pb-4">
         <div className="bg-gray-900 bg-opacity-50 hover:opacity-70 rounded-lg bg-no-repeat content flex flex-wrap overflow-hidden py-2 pb-4" >
@@ -70,7 +88,4 @@ export default function Dash() {
     </body>
   </>
 }
-/**
- * 
- * 
- */
+

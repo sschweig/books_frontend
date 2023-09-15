@@ -17,6 +17,11 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Design
+The app is designed to serve as a browser for the Google Books API catalogue. As
+such the available functionaly is restricted to the ability to execute a query, 
+and browse the results.
+
 ## TODO
 Clean up Tailwind
 Implement pop up on mouseover for in depth view
