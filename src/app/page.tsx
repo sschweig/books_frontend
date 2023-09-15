@@ -16,13 +16,16 @@ export default function Dash() {
    */
   function doSearch(evt: MouseEvent<HTMLButtonElement>): void {
     evt.preventDefault();
+    if (query.length == 0) {
 
-    const url = 'http://localhost:80/results/' + query.toString().split(' ').join('+')
-    console.log('doSearch: ' + url);
+    }else{
+      const url = 'http://localhost:80/results/' + query.toString().split(' ').join('+')
+      console.log('doSearch: ' + url);
 
-    fetch(url)
-        .then(response => {return response.json()})
-        .then(json => setLibrary(json));
+      fetch(url)
+          .then(response => {return response.json()})
+          .then(json => setLibrary(json));
+    }
   }
 
   const BookList = () => {
