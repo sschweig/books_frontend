@@ -2,12 +2,14 @@
 import React, { useState, MouseEvent } from 'react';
 
 export default function Dash() {
-  const [library, setLibrary] = useState<any[]>([])
+  const [library, setLibrary] = useState<BookType[]>([])
+  const [details, setDetails] = useState<BookType>()
   const [query, setQuery] = useState("")
+  const [overlayActive, setOverlay] = useState<Boolean>(false)
 
   function doSearch(evt: MouseEvent<HTMLButtonElement>) {
     evt.preventDefault();
-    const url = 'http://localhost:80/results/' + query.toString()
+    const url = 'http://localhost:80/results/' + query.toString().split(' ').join('+')
     console.log('doSearch: ' + url);
 
     fetch(url)
@@ -15,36 +17,42 @@ export default function Dash() {
         .then(json => setLibrary(json));
   }
 
+  const popOver = (evt: MouseEvent<HTMLButtonElement>, book: BookType) => {
+    return 
+  }
+
   const BookList = () => {
-    return <div className="bg-indigo-200 h-screen grid grid-cols-2 md:grid-cols-3 gap-4">  
+    return <div className="h-screen bg-green-200 grid grid-cols-2 md:grid-cols-3 gap-4">  
         {library.map(book => (<BookCard key={book.uid} {...book}/>))}
     </div>
   }
-
+  
   const BookCard = (book: BookType) => {
     return <>
-      <div className="h-auto min-h-fit max-w-full rounded-lg bg-no-repeat content flex flex-wrap overflow-hidden py-2" >
-        <img src={book.imagePreview} className="h-1/2 2-1/4"/>
-        <div className="item-body px-2 w-2/3 h-1/2 break-all">
-          <h1 className="text-xl font-bold">{book.title}</h1>
-          <h3 className="text-lg italic">{book.authors}</h3>
+      <button onMouseOver={(evt: MouseEvent<HTMLButtonElement>)=> popOver(evt, book)} className="h-80 rounded-lg bg-no-repeat content flex flex-wrap overflow-hidden py-2 pb-4">
+        <div className="bg-gray-900 bg-opacity-50 hover:opacity-75 rounded-lg bg-no-repeat content flex flex-wrap overflow-hidden py-2 pb-4" >
+          <img src={book.imagePreview} className="pl-3 h-1/2 w-1/4"/>
+          <div className="item-body px-2 w-2/3 h-1/2 break-all min-h-fit">
+            <h1 className="text-xl font-bold min-h-fit">{book.title}</h1>
+            <h3 className="text-lg italic min-h-fit">{book.authors}</h3>
+          </div>
+          <div className="item-body px-2 h-1/2">
+            <p className="text-m overflow-hidden min-h-fit pt-3">{book?.description}</p>
+          </div>
         </div>
-        <div className="item-body px-2 h-1/2">
-          <p className="text-lg">{book?.description}</p>
-        </div>
-      </div>
+      </button>
     </>
   }
 
   return <>
-    <body className="bg-indigo-200">
+    <body className='w-full'>
       <div className="bg-gray-400">
         <form>   
             <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                     </svg>
                 </div>
                 <input 

@@ -6,6 +6,9 @@ type BookType = {
     authors?: Array<string>;
     description?: string; 
     imagePreview?: string; 
+    averageRating?:number;
+    ratingsCount?: number; 
+    publishedDate?: string; 
 }
 
 type BookListType = Array<BookType>
